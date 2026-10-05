@@ -1,0 +1,23 @@
+# Xcode
+build/
+*.pbxproj
+*.xcworkspace
+xcuserdata/
+DerivedData/
+.build/
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Secrets
+Secrets.plist
+GoogleService-Info.plist
+GoogleService-Info-Mac.plist
+
+# OS X
+.DS_Store
+
+# Swift Package Manager
+.swiftpm/xcode/
+Package.resolved

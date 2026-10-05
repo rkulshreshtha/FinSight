@@ -1,0 +1,32 @@
+# macOS System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Xcode & Apple Development
+build/
+DerivedData/
+*.xcuserstate
+project.xcworkspace/
+xcuserdata/
+.build/
+
+# Package & Dependency Managers
+.swiftpm/xcode/
+Package.resolved
+Pods/
+Podfile.lock
+
+# Sensitive & Secret Files
+Secrets.plist
+GoogleService-Info.plist
+GoogleService-Info-Mac.plist
+*.env
+*.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
