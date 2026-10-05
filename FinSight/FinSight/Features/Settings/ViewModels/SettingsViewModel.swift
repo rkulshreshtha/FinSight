@@ -1,20 +1,6 @@
 import Foundation
 import Observation
 
-public struct UserProfile {
-    public let id: String
-    public let displayName: String
-    public let email: String
-    public let avatarURL: URL?
-    
-    public init(id: String, displayName: String, email: String, avatarURL: URL? = nil) {
-        self.id = id
-        self.displayName = displayName
-        self.email = email
-        self.avatarURL = avatarURL
-    }
-}
-
 @Observable
 public class SettingsViewModel {
     public var userProfile: UserProfile?
@@ -47,7 +33,7 @@ public class SettingsViewModel {
     public func loadSettings() async {
         isLoading = true
         try? await Task.sleep(nanoseconds: 500_000_000)
-        self.userProfile = UserProfile(id: UUID().uuidString, displayName: "John Doe", email: "john@example.com")
+        self.userProfile = UserProfile(id: UUID().uuidString, email: "john@example.com", displayName: "John Doe")
         self.isDriveConnected = true
         self.driveEmail = "john@example.com"
         self.paymentMethodCount = 4

@@ -1,6 +1,8 @@
 import Foundation
 import UserNotifications
+import Observation
 
+@Observable
 public final class LocalNotificationService: NotificationServiceProtocol {
     
     public init() {}

@@ -177,15 +177,3 @@ public struct SettingsView: View {
         }
     }
 }
-
-fileprivate class DummyDataService: DataServiceProtocol {
-    func getTransactions(filter: TransactionFilter) async throws -> [Any] { [] }
-    func searchTransactions(query: String) async throws -> [Any] { [] }
-    func getTotals(filter: TransactionFilter) async throws -> (credits: Decimal, debits: Decimal, net: Decimal, count: Int) { (0,0,0,0) }
-    func saveTransaction(_ transaction: Any) async throws {}
-    func deleteTransaction(id: String) async throws {}
-    func getPaymentMethods() async throws -> [PaymentMethod] { [] }
-    func savePaymentMethod(_ method: PaymentMethod) async throws {}
-    func getBudgets() async throws -> [Budget] { [] }
-    func saveBudget(_ budget: Budget) async throws {}
-}

@@ -32,7 +32,7 @@ public final class DependencyContainer: @unchecked Sendable {
 }
 
 private struct DependencyContainerKey: EnvironmentKey {
-    static let defaultValue = DependencyContainer()
+    nonisolated(unsafe) static let defaultValue = DependencyContainer()
 }
 
 extension EnvironmentValues {
