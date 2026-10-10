@@ -1,4 +1,5 @@
 import Foundation
+import FirebaseCore
 import FirebaseAuth
 import GoogleSignIn
 import Observation
@@ -114,6 +115,11 @@ public final class FirebaseAuthService: AuthServiceProtocol {
         }
         
         do {
+            if GIDSignIn.sharedInstance.configuration == nil {
+                let clientID = FirebaseApp.app()?.options.clientID ?? "135503220017-ot4dn83df77efg6mp8nha4kje42fap7u.apps.googleusercontent.com"
+                GIDSignIn.sharedInstance.configuration = GIDConfiguration(clientID: clientID)
+            }
+            
             let signInResult = try await GIDSignIn.sharedInstance.signIn(withPresenting: rootVC)
             guard let idToken = signInResult.user.idToken?.tokenString else {
                 throw AuthError.unknown("Missing Google ID Token")
