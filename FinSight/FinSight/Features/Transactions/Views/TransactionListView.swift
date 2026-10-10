@@ -3,7 +3,7 @@ import SwiftUI
 public struct TransactionListView: View {
     @State private var viewModel: TransactionListViewModel
     
-    public init(viewModel: TransactionListViewModel) {
+    public init(viewModel: TransactionListViewModel = TransactionListViewModel()) {
         self._viewModel = State(wrappedValue: viewModel)
     }
     

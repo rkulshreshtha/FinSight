@@ -4,7 +4,7 @@ public struct AddTransactionView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var viewModel: AddTransactionViewModel
     
-    public init(viewModel: AddTransactionViewModel) {
+    public init(viewModel: AddTransactionViewModel = AddTransactionViewModel()) {
         _viewModel = State(initialValue: viewModel)
     }
     

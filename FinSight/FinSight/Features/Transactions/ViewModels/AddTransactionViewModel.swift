@@ -109,7 +109,13 @@ public final class AddTransactionViewModel {
     private let transactionRepo: TransactionRepository
     private let paymentMethodRepo: PaymentMethodRepository
     
-    public init(mode: FormMode, aiService: AIServiceProtocol, dataService: DataServiceProtocol, transactionRepo: TransactionRepository, paymentMethodRepo: PaymentMethodRepository) {
+    public init(
+        mode: FormMode = .add,
+        aiService: AIServiceProtocol = GeminiAIService(),
+        dataService: DataServiceProtocol = FirestoreService(),
+        transactionRepo: TransactionRepository = TransactionRepository(dataService: FirestoreService()),
+        paymentMethodRepo: PaymentMethodRepository = PaymentMethodRepository(dataService: FirestoreService())
+    ) {
         self.mode = mode
         self.aiService = aiService
         self.dataService = dataService

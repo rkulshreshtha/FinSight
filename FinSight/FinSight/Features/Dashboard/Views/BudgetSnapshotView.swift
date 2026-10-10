@@ -22,7 +22,8 @@ public struct BudgetSnapshotView: View {
                     .foregroundColor(.secondary)
             } else {
                 ForEach(viewModel.topBudgets, id: \.budget.id) { item in
-                    BudgetProgressRow(name: item.budget.name, spent: item.spent, limit: item.budget.limit)
+                    let displayName = item.budget.isOverall ? "Overall" : (item.budget.category ?? "General")
+                    BudgetProgressRow(name: displayName, spent: item.spent, limit: item.budget.limitAmount)
                 }
             }
         }

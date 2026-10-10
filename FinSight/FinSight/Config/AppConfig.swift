@@ -14,6 +14,7 @@ public enum AppConfig {
     public static let budgetWarningThreshold = 0.80
     public static let budgetDangerThreshold = 0.95
     public static let googleDriveFolderName = "FinSight Receipts"
+    public static let geminiModel = "gemini-2.5-flash"
 
     public static var geminiAPIKey: String {
         guard let path = Bundle.main.path(forResource: "Secrets", ofType: "plist"),

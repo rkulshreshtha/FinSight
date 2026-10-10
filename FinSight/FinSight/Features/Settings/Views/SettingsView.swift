@@ -94,8 +94,7 @@ public struct SettingsView: View {
                 // DATA MANAGEMENT
                 Section(header: Text("DATA MANAGEMENT"), footer: Text("Data retention: 12-month rolling window")) {
                     NavigationLink {
-                        Text("Export Data View")
-                            .navigationTitle("Export Data")
+                        ExportView()
                     } label: {
                         Text("Export Data")
                     }
@@ -130,7 +129,7 @@ public struct SettingsView: View {
                 // PAYMENT METHODS
                 Section(header: Text("PAYMENT METHODS")) {
                     NavigationLink {
-                        PaymentMethodsView(viewModel: PaymentMethodsViewModel(repository: PaymentMethodRepository(dataService: DummyDataService())))
+                        PaymentMethodsView()
                     } label: {
                         HStack {
                             Text("Manage Payment Methods")

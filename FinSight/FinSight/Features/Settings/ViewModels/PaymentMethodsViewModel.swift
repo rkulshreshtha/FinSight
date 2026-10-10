@@ -13,7 +13,7 @@ public class PaymentMethodsViewModel {
     
     private let repository: PaymentMethodRepository
     
-    public init(repository: PaymentMethodRepository) {
+    public init(repository: PaymentMethodRepository = PaymentMethodRepository(dataService: FirestoreService())) {
         self.repository = repository
     }
     
@@ -22,25 +22,44 @@ public class PaymentMethodsViewModel {
         isLoading = true
         errorMessage = nil
         do {
+            try await repository.fetchPaymentMethods()
             self.paymentMethods = repository.paymentMethods
             groupMethods()
+        } catch {
+            errorMessage = error.localizedDescription
         }
         isLoading = false
     }
     
     @MainActor
+    public func savePaymentMethod(_ method: PaymentMethod) async {
+        do {
+            try await repository.savePaymentMethod(method)
+            self.paymentMethods = repository.paymentMethods
+            groupMethods()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+    
+    @MainActor
     public func deletePaymentMethod(_ method: PaymentMethod) async {
-        paymentMethods.removeAll { $0.id == method.id }
-        repository.paymentMethods = paymentMethods
-        groupMethods()
+        do {
+            try await repository.deletePaymentMethod(id: method.id)
+            self.paymentMethods = repository.paymentMethods
+            groupMethods()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
     }
     
     @MainActor
     public func setDefault(_ method: PaymentMethod) async {
-        for i in 0..<paymentMethods.count {
-            paymentMethods[i].isDefault = (paymentMethods[i].id == method.id)
+        for var m in paymentMethods {
+            m.isDefault = (m.id == method.id)
+            try? await repository.savePaymentMethod(m)
         }
-        repository.paymentMethods = paymentMethods
+        self.paymentMethods = repository.paymentMethods
         groupMethods()
     }
     

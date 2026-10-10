@@ -3,8 +3,9 @@ import SwiftUI
 public struct ExpectedTransactionsView: View {
     @State private var viewModel: TrackingViewModel
     
-    public init(viewModel: TrackingViewModel) {
-        self.viewModel = viewModel
+    @MainActor
+    public init(viewModel: TrackingViewModel = TrackingViewModel()) {
+        self._viewModel = State(initialValue: viewModel)
     }
     
     public var body: some View {

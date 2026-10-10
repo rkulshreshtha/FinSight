@@ -32,7 +32,7 @@ public class TransactionListViewModel {
     
     private let dataService: DataServiceProtocol
     
-    public init(dataService: DataServiceProtocol) {
+    public init(dataService: DataServiceProtocol = FirestoreService()) {
         self.dataService = dataService
     }
     

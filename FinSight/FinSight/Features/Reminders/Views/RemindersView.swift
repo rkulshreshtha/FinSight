@@ -3,8 +3,9 @@ import SwiftUI
 public struct RemindersView: View {
     @State private var viewModel: RemindersViewModel
     
-    public init(viewModel: RemindersViewModel) {
-        self.viewModel = viewModel
+    @MainActor
+    public init(viewModel: RemindersViewModel = RemindersViewModel()) {
+        self._viewModel = State(initialValue: viewModel)
     }
     
     public var body: some View {

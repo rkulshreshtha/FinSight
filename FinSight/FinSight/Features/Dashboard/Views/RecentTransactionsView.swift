@@ -41,10 +41,10 @@ public struct RecentTransactionsView: View {
                         
                         Spacer()
                         
-                        Text("\(transaction.isExpense ? "-" : "+")$\(transaction.amount)")
+                        Text(transaction.formattedAmount)
                             .font(.subheadline)
                             .fontWeight(.semibold)
-                            .foregroundColor(transaction.isExpense ? .red : .green)
+                            .foregroundColor(transaction.isCredit ? .green : .red)
                     }
                     .padding(.vertical, 4)
                 }

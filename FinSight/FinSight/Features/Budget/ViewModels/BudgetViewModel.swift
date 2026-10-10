@@ -47,8 +47,10 @@ public struct BudgetProgress: Identifiable {
 }
 
 @Observable
+@MainActor
 public class BudgetViewModel {
     public var budgets: [Budget] = []
+    public var transactions: [Transaction] = []
     public var selectedPeriod: BudgetPeriod = .monthly
     public var isLoading: Bool = false
     public var errorMessage: String? = nil
@@ -57,25 +59,31 @@ public class BudgetViewModel {
     public var editingBudget: Budget? = nil
     
     private let dataService: DataServiceProtocol
+    private let budgetRepo: BudgetRepository
     
-    public init(dataService: DataServiceProtocol) {
+    public init(dataService: DataServiceProtocol = FirestoreService()) {
         self.dataService = dataService
+        self.budgetRepo = BudgetRepository(dataService: dataService)
     }
     
     public var overallBudget: BudgetProgress? {
         guard let budget = budgets.first(where: { $0.isOverall && $0.period == selectedPeriod }) else { return nil }
-        return computeSpending(for: budget, from: []) // Mock spent logic since we need transactions
+        return computeSpending(for: budget, from: transactions)
     }
     
     public var categoryBudgets: [BudgetProgress] {
         budgets.filter { !$0.isOverall && $0.period == selectedPeriod }
-               .map { computeSpending(for: $0, from: []) } // Mock spent logic
+               .map { computeSpending(for: $0, from: transactions) }
     }
     
     public func loadBudgets() async {
         isLoading = true
         do {
-            budgets = try await dataService.getBudgets()
+            async let fetchedBudgets = dataService.getBudgets()
+            async let fetchedTransactions = dataService.getTransactions(filter: TransactionFilter())
+            
+            self.budgets = try await fetchedBudgets
+            self.transactions = try await fetchedTransactions
         } catch {
             errorMessage = error.localizedDescription
         }
@@ -89,10 +97,11 @@ public class BudgetViewModel {
     
     public func deleteBudget(id: String) {
         budgets.removeAll(where: { $0.id == id })
+        Task { try? await dataService.deleteBudget(id: id) }
     }
     
     public func computeSpending(for budget: Budget, from transactions: [Transaction]) -> BudgetProgress {
-        // In reality, we filter transactions matching budget criteria, here returning mock spent
-        return BudgetProgress(budget: budget, spent: Decimal(Int.random(in: 100...20000)))
+        let spent = budgetRepo.computeSpent(for: budget, transactions: transactions)
+        return BudgetProgress(budget: budget, spent: spent)
     }
 }

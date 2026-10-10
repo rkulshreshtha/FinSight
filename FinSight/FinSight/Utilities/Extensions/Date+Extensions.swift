@@ -51,4 +51,11 @@ public extension Date {
     var monthYearString: String {
         Constants.Formatters.monthYear.string(from: self)
     }
+    
+    var formattedDate: String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        return formatter.string(from: self)
+    }
 }

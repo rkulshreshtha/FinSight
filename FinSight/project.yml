@@ -30,14 +30,19 @@ targets:
       - path: FinSight
     settings:
       base:
-        SWIFT_VERSION: "6.0"
+        GENERATE_INFOPLIST_FILE: YES
+        SWIFT_VERSION: "5.0"
+        SWIFT_STRICT_CONCURRENCY: minimal
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
         SUPPORTS_MACCATALYST: YES
         DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER: NO
+        PRODUCT_BUNDLE_IDENTIFIER: com.rkulshreshtha.finsight
         INFOPLIST_KEY_NSCameraUsageDescription: "We need camera access to scan receipts and bills."
         INFOPLIST_KEY_NSPhotoLibraryUsageDescription: "We need photo library access to attach receipt images."
         INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: "We need location access to tag transactions with places."
+    info:
+      path: FinSight/Info.plist
     dependencies:
       - package: Firebase
         product: FirebaseAuth
@@ -59,7 +64,8 @@ targets:
       - path: FinSightShareExtension
     settings:
       base:
-        SWIFT_VERSION: "6.0"
+        SWIFT_VERSION: "5.0"
+        SWIFT_STRICT_CONCURRENCY: minimal
     info:
       path: FinSightShareExtension/Info.plist
     dependencies:
@@ -70,5 +76,8 @@ targets:
     platform: iOS
     sources:
       - path: FinSightTests
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
     dependencies:
       - target: FinSight

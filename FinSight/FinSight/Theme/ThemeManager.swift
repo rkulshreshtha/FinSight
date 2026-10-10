@@ -1,7 +1,7 @@
 import SwiftUI
 import Observation
 
-public enum AppTheme: String, CaseIterable, Identifiable {
+public enum AppTheme: String, Codable, Hashable, CaseIterable, Identifiable {
     case light
     case dark
     case system

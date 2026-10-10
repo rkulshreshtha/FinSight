@@ -48,7 +48,7 @@ public struct ReceiptScannerView: View {
                                 HStack {
                                     Text(item.name)
                                     Spacer()
-                                    Text("₹\(item.price)")
+                                    Text(item.displayPrice)
                                 }
                             }
                         }

@@ -16,7 +16,7 @@ public struct CategoryTagCloud: View {
     }
     
     public var body: some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 8)], spacing: 8, alignment: .leading) {
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 8)], alignment: .leading, spacing: 8) {
             
             ForEach(selectedCategories, id: \.self) { category in
                 HStack {

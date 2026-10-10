@@ -44,6 +44,11 @@ struct FinSightApp: App {
                 .environment(container.paymentMethodRepository)
                 .environment(container.budgetRepository)
                 .preferredColorScheme(themeManager.colorScheme)
+                .onOpenURL { url in
+                    #if os(iOS)
+                    _ = GIDSignIn.sharedInstance.handle(url)
+                    #endif
+                }
                 .onAppear {
                     Task {
                         do {
@@ -60,6 +65,8 @@ struct FinSightApp: App {
 
 #if os(iOS)
 import UIKit
+import GoogleSignIn
+
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
@@ -67,6 +74,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         FirebaseApp.configure()
         #endif
         return true
+    }
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+        return GIDSignIn.sharedInstance.handle(url)
     }
 }
 #else

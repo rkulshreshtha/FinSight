@@ -6,7 +6,9 @@ import PDFKit
 import AppKit
 import PDFKit
 #endif
+import Observation
 
+@Observable
 public class ExportService {
     public init() {}
     

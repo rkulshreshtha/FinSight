@@ -26,7 +26,9 @@ public protocol DataServiceProtocol {
     
     func getPaymentMethods() async throws -> [PaymentMethod]
     func savePaymentMethod(_ method: PaymentMethod) async throws
+    func deletePaymentMethod(id: String) async throws
     
     func getBudgets() async throws -> [Budget]
     func saveBudget(_ budget: Budget) async throws
+    func deleteBudget(id: String) async throws
 }

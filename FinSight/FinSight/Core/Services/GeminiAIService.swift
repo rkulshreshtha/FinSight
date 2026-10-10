@@ -18,13 +18,14 @@ public final class GeminiAIService: AIServiceProtocol {
     public init() {
         let apiKey = AppConfig.geminiAPIKey
 
+        let modelName = AppConfig.geminiModel
         self.textModel = GenerativeModel(
-            name: "gemini-pro",
+            name: modelName,
             apiKey: apiKey
         )
 
         self.visionModel = GenerativeModel(
-            name: "gemini-pro-vision",
+            name: modelName,
             apiKey: apiKey
         )
     }
@@ -62,7 +63,8 @@ public final class GeminiAIService: AIServiceProtocol {
         - Return valid JSON only, no markdown formatting
         """
 
-        let response = try await visionModel.generateContent(prompt, image)
+        let imagePart = ModelContent.Part.data(mimetype: "image/jpeg", image)
+        let response = try await visionModel.generateContent(prompt, imagePart)
 
         guard let text = response.text else {
             throw AIServiceError.emptyResponse
@@ -364,7 +366,7 @@ public final class GeminiAIService: AIServiceProtocol {
                 }
                 return Date()
             }(),
-            cardLast4: decoded.cardLast4,
+            cardLast4: decoded.cardLast4 ?? "",
             transactionType: decoded.transactionType ?? "debit",
             rawText: originalText
         )
@@ -388,7 +390,7 @@ public final class GeminiAIService: AIServiceProtocol {
             RecurringPattern(
                 title: pattern.title,
                 amount: Decimal(pattern.averageAmount),
-                frequency: RecurringFrequency(rawValue: pattern.frequency) ?? .monthly,
+                frequency: pattern.frequency,
                 confidence: pattern.confidence,
                 matchingTransactionIds: []
             )

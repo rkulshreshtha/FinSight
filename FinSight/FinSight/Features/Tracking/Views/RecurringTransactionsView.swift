@@ -3,8 +3,9 @@ import SwiftUI
 public struct RecurringTransactionsView: View {
     @State private var viewModel: RecurringViewModel
     
-    public init(viewModel: RecurringViewModel) {
-        self.viewModel = viewModel
+    @MainActor
+    public init(viewModel: RecurringViewModel = RecurringViewModel()) {
+        self._viewModel = State(initialValue: viewModel)
     }
     
     public var body: some View {

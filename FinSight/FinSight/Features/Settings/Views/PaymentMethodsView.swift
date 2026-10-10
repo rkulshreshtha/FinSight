@@ -3,7 +3,7 @@ import SwiftUI
 public struct PaymentMethodsView: View {
     @State private var viewModel: PaymentMethodsViewModel
     
-    public init(viewModel: PaymentMethodsViewModel) {
+    public init(viewModel: PaymentMethodsViewModel = PaymentMethodsViewModel()) {
         _viewModel = State(initialValue: viewModel)
     }
     
@@ -54,8 +54,9 @@ public struct PaymentMethodsView: View {
                     viewModel: viewModel,
                     editingMethod: nil,
                     onSave: { newMethod in
-                        viewModel.paymentMethods.append(newMethod)
-                        viewModel.groupMethods()
+                        Task {
+                            await viewModel.savePaymentMethod(newMethod)
+                        }
                     }
                 )
             }
@@ -66,10 +67,9 @@ public struct PaymentMethodsView: View {
                     viewModel: viewModel,
                     editingMethod: method,
                     onSave: { updatedMethod in
-                        if let index = viewModel.paymentMethods.firstIndex(where: { $0.id == updatedMethod.id }) {
-                            viewModel.paymentMethods[index] = updatedMethod
+                        Task {
+                            await viewModel.savePaymentMethod(updatedMethod)
                         }
-                        viewModel.groupMethods()
                     }
                 )
             }

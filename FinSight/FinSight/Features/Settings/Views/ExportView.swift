@@ -5,7 +5,7 @@ public struct ExportView: View {
     @State private var viewModel: ExportViewModel
     @State private var showShareSheet = false
     
-    public init(viewModel: ExportViewModel) {
+    public init(viewModel: ExportViewModel = ExportViewModel()) {
         _viewModel = State(initialValue: viewModel)
     }
     

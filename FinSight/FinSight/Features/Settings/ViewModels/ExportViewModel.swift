@@ -21,7 +21,7 @@ public class ExportViewModel {
     private let dataService: DataServiceProtocol
     private let exportService: ExportService
     
-    public init(dataService: DataServiceProtocol, exportService: ExportService = ExportService()) {
+    public init(dataService: DataServiceProtocol = FirestoreService(), exportService: ExportService = ExportService()) {
         self.dataService = dataService
         self.exportService = exportService
         

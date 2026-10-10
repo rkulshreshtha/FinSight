@@ -1,6 +1,7 @@
 import SwiftUI
 
 @Observable
+@MainActor
 public final class DependencyContainer: @unchecked Sendable {
     public let authService: FirebaseAuthService
     public let dataService: FirestoreService
@@ -32,7 +33,7 @@ public final class DependencyContainer: @unchecked Sendable {
 }
 
 private struct DependencyContainerKey: EnvironmentKey {
-    nonisolated(unsafe) static let defaultValue = DependencyContainer()
+    nonisolated(unsafe) static let defaultValue = MainActor.assumeIsolated { DependencyContainer() }
 }
 
 extension EnvironmentValues {

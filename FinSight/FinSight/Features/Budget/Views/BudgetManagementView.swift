@@ -3,8 +3,13 @@ import SwiftUI
 public struct BudgetManagementView: View {
     @State private var viewModel: BudgetViewModel
     
+    @MainActor
+    public init() {
+        self._viewModel = State(initialValue: BudgetViewModel())
+    }
+    
     public init(viewModel: BudgetViewModel) {
-        self.viewModel = viewModel
+        self._viewModel = State(initialValue: viewModel)
     }
     
     public var body: some View {

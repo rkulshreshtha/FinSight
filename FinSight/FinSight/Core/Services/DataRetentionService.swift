@@ -9,6 +9,7 @@ public struct RetentionSummary {
 }
 
 @Observable
+@MainActor
 public class DataRetentionService {
     public var oldestTransactionDate: Date? = nil
     public var daysUntilPurge: Int = 365
@@ -27,13 +28,11 @@ public class DataRetentionService {
             let transactions = try await dataService.getTransactions(filter: filter)
             let sorted = transactions.sorted { $0.date < $1.date }
             
-            await MainActor.run {
-                if let oldest = sorted.first {
-                    self.oldestTransactionDate = oldest.date
-                    let daysOld = Calendar.current.dateComponents([.day], from: oldest.date, to: Date()).day ?? 0
-                    self.daysUntilPurge = max(0, 365 - daysOld)
-                    self.shouldShowExportWarning = self.daysUntilPurge <= 30
-                }
+            if let oldest = sorted.first {
+                self.oldestTransactionDate = oldest.date
+                let daysOld = Calendar.current.dateComponents([.day], from: oldest.date, to: Date()).day ?? 0
+                self.daysUntilPurge = max(0, 365 - daysOld)
+                self.shouldShowExportWarning = self.daysUntilPurge <= 30
             }
         } catch {
             print("Error checking retention status: \(error)")
@@ -53,10 +52,7 @@ public class DataRetentionService {
             count += 1
         }
         
-        await MainActor.run {
-            self.lastPurgeDate = Date()
-        }
-        
+        self.lastPurgeDate = Date()
         await checkRetentionStatus()
         return count
     }
