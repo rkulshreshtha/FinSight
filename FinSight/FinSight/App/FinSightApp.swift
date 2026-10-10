@@ -51,11 +51,6 @@ struct FinSightApp: App {
                 }
                 .onAppear {
                     Task {
-                        do {
-                            _ = try await container.notificationService.requestPermission()
-                        } catch {
-                            print("Notification permission error: \(error)")
-                        }
                         await container.dataRetentionService.checkRetentionStatus()
                     }
                 }
